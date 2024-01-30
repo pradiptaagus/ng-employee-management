@@ -1,0 +1,144 @@
+<p style="font-size: 16px; font-weight: 700; margin-bottom: 20px">Search</p>
+<form
+  action="#"
+  style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 16px"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-form-field floatLabel="always" appearance="outline" style="width: 100%">
+    <mat-label>First name</mat-label>
+    <input matInput type="text" formControlName="firstName" />
+    @if (firstName?.errors?.['required']) {
+    <mat-error>{{ "First name is required" }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field floatLabel="always" appearance="outline" style="width: 100%">
+    <mat-label>Last name</mat-label>
+    <input matInput type="text" formControlName="lastName" />
+    @if (lastName?.errors?.['required']) {
+    <mat-error>{{ "Last name is required" }}</mat-error>
+    }
+  </mat-form-field>
+  <div style="display: flex; gap: 16px">
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      style="align-self: flex-start"
+      [disabled]="!form.valid"
+    >
+      Search
+    </button>
+    <button
+      mat-flat-button
+      color="accent"
+      type="reset"
+      style="align-self: flex-start"
+      [disabled]="!form.valid"
+      (click)="onReset()"
+    >
+      Reset
+    </button>
+  </div>
+</form>
+<div style="overflow-x: auto; margin-bottom: 100px">
+  <table mat-table [dataSource]="data" matSort>
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let employee; let i = index">
+        {{ i + 1 + size * page }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.username }}</td>
+    </ng-container>
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.firstName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.lastName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.email }}</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell *matCellDef="let employee">
+        <mat-chip-listbox>
+          <mat-chip
+            highlighted
+            [color]="employee.status === 'verified' ? 'primary' : 'accent'"
+            >{{ employee.status }}
+          </mat-chip>
+        </mat-chip-listbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let employee" style="width: 15%">
+        <div style="display: flex; gap: 8px">
+          <button
+            mat-flat-button
+            color="primary"
+            [routerLink]="'/' + employee.username"
+          >
+            Detail
+          </button>
+          <button
+            mat-flat-button
+            color="accent"
+            [routerLink]="'/' + employee.username + '/edit'"
+          >
+            Edit
+          </button>
+          <button
+            mat-flat-button
+            color="warn"
+            (click)="onDelete(employee.username)"
+          >
+            Delete
+          </button>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <ng-container *matNoDataRow>
+      <tr>
+        <td
+          [attr.colspan]="displayedColumns.length"
+          style="text-align: center; height: 52px"
+        >
+          No data match the filter
+        </td>
+      </tr>
+    </ng-container>
+  </table>
+  <mat-paginator
+    [length]="total"
+    [pageSize]="size"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="page"
+    aria-label="Select page"
+    (page)="handlePageEvent($event)"
+  >
+  </mat-paginator>
+</div>
+
+<button
+  mat-fab
+  color="primary"
+  aria-label="New employee"
+  style="position: fixed; bottom: 64px; right: 24px; z-index: 1"
+  routerLink="/new"
+>
+  <mat-icon
+    aria-hidden="false"
+    aria-label="New employee icon"
+    fontIcon="add"
+  ></mat-icon>
+</button>

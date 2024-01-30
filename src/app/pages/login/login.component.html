@@ -1,0 +1,40 @@
+<div class="container">
+  <h1 class="title">Login</h1>
+  <form
+    action="#"
+    style="display: flex; flex-direction: column; gap: 16px"
+    [formGroup]="form"
+    (ngSubmit)="authenticate()"
+  >
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" formControlName="username" />
+      @if (username?.errors?.['required']) {
+      <mat-error>{{ "Last name is required" }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+      @if (password?.errors?.['required']) {
+      <mat-error>{{ "Password is required" }}</mat-error>
+      }
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="!form.valid"
+      style="width: 100%; height: 56px"
+    >
+      Save
+    </button>
+  </form>
+  <div class="hint">
+    Hint:
+    <p>Username: admin</p>
+    <p>Password: admin</p>
+  </div>
+</div>

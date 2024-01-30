@@ -1,0 +1,57 @@
+<h1 style="font-size: 20px; font-weight: bold">Detail of Employee</h1>
+
+<div class="container">
+  <div class="wrapper">
+    <div class="key">Username</div>
+    <div>: {{ employee?.username }}</div>
+  </div>
+  <div class="wrapper">
+    <div class="key">First name</div>
+    <div>: {{ employee?.firstName }}</div>
+  </div>
+  <div class="wrapper">
+    <div class="key">Last name</div>
+    <div>: {{ employee?.lastName }}</div>
+  </div>
+  <div class="wrapper">
+    <div class="key">Email</div>
+    <div>: {{ employee?.email }}</div>
+  </div>
+  <div class="wrapper">
+    <div class="key">Birth date</div>
+    <div>: {{ employee?.birthDate | date }}</div>
+  </div>
+  <div class="wrapper">
+    <div class="key">Salary</div>
+    <div>: Rp {{ salary }}</div>
+  </div>
+  <div class="wrapper">
+    <div class="key">Status</div>
+    <div>
+      <mat-chip-listbox>
+        <mat-chip
+          highlighted
+          [color]="employee?.status === 'verified' ? 'primary' : 'accent'"
+          >{{ employee?.status }}
+        </mat-chip>
+      </mat-chip-listbox>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div class="key">Group</div>
+    <div>: {{ employee?.group }}</div>
+  </div>
+  <div class="wrapper">
+    <div class="key">Description</div>
+    <div>: {{ employee?.description | date }}</div>
+  </div>
+</div>
+
+<button
+  mat-flat-button
+  color="primary"
+  style="margin-top: 16px"
+  (click)="back()"
+>
+  OK
+</button>
